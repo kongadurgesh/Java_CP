@@ -31,10 +31,47 @@ public class JavaStreams {
             removeDuplicatesFromList();
             findCommonElementsInLists();
             mergeTwoLists();
+            wordFrequencyCount();
+            findSecondMaxInList();
+            getPersonNamesWithAgefilter();
         } finally {
             fastWriter.flush();
             fastWriter.close();
         }
+    }
+
+    // Advanced Problem 3: Stream of Custom Objects
+    // Task: Given a list of Person objects with fields name and age, filter out all
+    // people older than a certain age and collect their names into a list.
+    private static void getPersonNamesWithAgefilter() {
+        List<Person> people = Arrays.asList(
+                new Person("Alice", 25),
+                new Person("Bob", 30),
+                new Person("Charlie", 35),
+                new Person("David", 40));
+        int ageThreshold = 30;
+
+        List<String> filteredNames = people.stream().filter(person -> person.age > ageThreshold).map(Person::getName)
+                .toList();
+        System.out.println(filteredNames);
+    }
+
+    // Advanced Problem 2: Find the Second Highest Number
+    // Task: Given a list of integers, find the second highest value.
+    private static void findSecondMaxInList() {
+        List<Integer> numbers = Arrays.asList(3, 1, 4, 1, 5, 9, 2, 6, 5);
+        int secondMax = numbers.stream().sorted((x, y) -> y - x).toList().get(1);
+        System.out.println(secondMax);
+    }
+
+    // Advanced Problem 1: Word Frequency Count
+    // Task: Given a string of text, count the frequency of each word.
+    private static void wordFrequencyCount() {
+        String text = "hello world hello";
+
+        Map<String, Long> countMap = Arrays.asList(text.split(" ")).stream()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        System.out.println(countMap);
     }
 
     // Problem 15: Merge Two Lists
@@ -188,6 +225,28 @@ public class JavaStreams {
     private static void calculateSum(List<Integer> numbers) throws IOException {
         int sum = numbers.stream().mapToInt(Integer::intValue).sum();
         fastWriter.writeLine(sum);
+    }
+
+}
+
+/**
+ * Person
+ */
+class Person {
+    String name;
+    int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
     }
 
 }
