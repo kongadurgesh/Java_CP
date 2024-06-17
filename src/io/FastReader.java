@@ -13,7 +13,8 @@ public class FastReader {
 
     public FastReader() {
         try {
-            din = new DataInputStream(new FileInputStream("C:\\Users\\konga\\Core_Java\\Java_CP\\src\\io\\input.txt"));
+            din = new DataInputStream(
+                    new FileInputStream("C:\\Users\\konga\\Study\\Core_Java\\Java_CP\\src\\io\\input.txt"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

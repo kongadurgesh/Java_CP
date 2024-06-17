@@ -17,7 +17,7 @@ public class FastWriter {
     public FastWriter() {
         try {
             bos = new BufferedOutputStream(
-                    new FileOutputStream("C:\\Users\\konga\\Core_Java\\Java_CP\\src\\io\\output.txt"),
+                    new FileOutputStream("C:\\Users\\konga\\Study\\Core_Java\\Java_CP\\src\\io\\output.txt"),
                     DEFAULT_BUFFER_SIZE);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
