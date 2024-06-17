@@ -100,4 +100,8 @@ public class FastWriter {
         bos.close();
     }
 
+    public void write(boolean valid) throws IOException {
+        write(Boolean.toString(valid));
+    }
+
 }
