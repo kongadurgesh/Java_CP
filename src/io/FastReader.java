@@ -1,124 +1,73 @@
 package io;
 
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.util.StringTokenizer;
 
 public class FastReader {
-    final private int BUFFER_SIZE = 1 << 16;
-    private DataInputStream din;
-    private byte[] buffer;
-    private int bufferPointer, bytesRead;
+    private BufferedReader reader;
+    private StringTokenizer tokenizer;
 
-    public FastReader() {
+    public FastReader() throws FileNotFoundException {
+        reader = new BufferedReader(new FileReader("C:\\Users\\konga\\Study\\Core_Java\\Java_CP\\src\\io\\input.txt"));
+        tokenizer = null;
+    }
+
+    public String next() {
+        while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+            try {
+                tokenizer = new StringTokenizer(reader.readLine());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return tokenizer.nextToken();
+    }
+
+    public int nextInt() {
+        return Integer.parseInt(next());
+    }
+
+    public long nextLong() {
+        return Long.parseLong(next());
+    }
+
+    public double nextDouble() {
+        return Double.parseDouble(next());
+    }
+
+    public String nextLine() {
+        String str = "";
         try {
-            din = new DataInputStream(
-                    new FileInputStream("C:\\Users\\konga\\Study\\Core_Java\\Java_CP\\src\\io\\input.txt"));
-        } catch (FileNotFoundException e) {
+            str = reader.readLine();
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        buffer = new byte[BUFFER_SIZE];
-        bufferPointer = bytesRead = 0;
+        return str;
     }
 
-    public FastReader(String file_name) throws IOException {
-        din = new DataInputStream(
-                new FileInputStream(file_name));
-        buffer = new byte[BUFFER_SIZE];
-        bufferPointer = bytesRead = 0;
-    }
-
-    public String readLine() throws IOException {
-        byte[] buf = new byte[64]; // line length
-        int cnt = 0, c;
-        while ((c = read()) != -1) {
-            if (c == '\n') {
-                if (cnt != 0) {
-                    break;
-                } else {
-                    continue;
-                }
+    public boolean hasNext() {
+        try {
+            if (tokenizer != null && tokenizer.hasMoreTokens()) {
+                return true;
             }
-            buf[cnt++] = (byte) c;
-        }
-        return new String(buf, 0, cnt);
-    }
-
-    public int nextInt() throws IOException {
-        int ret = 0;
-        byte c = read();
-        while (c <= ' ') {
-            c = read();
-        }
-        boolean neg = (c == '-');
-        if (neg)
-            c = read();
-        do {
-            ret = ret * 10 + c - '0';
-        } while ((c = read()) >= '0' && c <= '9');
-
-        if (neg)
-            return -ret;
-        return ret;
-    }
-
-    public long nextLong() throws IOException {
-        long ret = 0;
-        byte c = read();
-        while (c <= ' ')
-            c = read();
-        boolean neg = (c == '-');
-        if (neg)
-            c = read();
-        do {
-            ret = ret * 10 + c - '0';
-        } while ((c = read()) >= '0' && c <= '9');
-        if (neg)
-            return -ret;
-        return ret;
-    }
-
-    public double nextDouble() throws IOException {
-        double ret = 0, div = 1;
-        byte c = read();
-        while (c <= ' ')
-            c = read();
-        boolean neg = (c == '-');
-        if (neg)
-            c = read();
-
-        do {
-            ret = ret * 10 + c - '0';
-        } while ((c = read()) >= '0' && c <= '9');
-
-        if (c == '.') {
-            while ((c = read()) >= '0' && c <= '9') {
-                ret += (c - '0') / (div *= 10);
+            reader.mark(1);
+            if (reader.read() < 0) {
+                return false;
             }
+            reader.reset();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        if (neg)
-            return -ret;
-        return ret;
+        return false;
     }
 
-    private void fillBuffer() throws IOException {
-        bytesRead = din.read(buffer, bufferPointer = 0,
-                BUFFER_SIZE);
-        if (bytesRead == -1)
-            buffer[0] = -1;
+    public void close() {
+        try {
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private byte read() throws IOException {
-        if (bufferPointer == bytesRead)
-            fillBuffer();
-        return buffer[bufferPointer++];
-    }
-
-    public void close() throws IOException {
-        if (din == null)
-            return;
-        din.close();
-    }
 }

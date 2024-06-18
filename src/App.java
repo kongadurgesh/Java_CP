@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +22,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         setUp();
 
-        int question = 13;
+        int question = 15;
         switch (question) {
             case 1:
                 linearSearch();
@@ -62,13 +63,33 @@ public class App {
             case 13:
                 checkPalindromeRecursion();
                 break;
+            case 14:
+                decimalToBinaryRecursion();
+                break;
+            case 15:
+                binarySearchRecursion();
+                break;
             default:
                 break;
         }
     }
 
+    private static void binarySearchRecursion() throws IOException {
+        int[] arr = Arrays.stream(reader.nextLine().split(" "))
+                .mapToInt(Integer::parseInt)
+                .toArray();
+        int index = RecursionTest.binarySearchRecursion(arr, reader.nextInt());
+        printResult(index);
+    }
+
+    private static void decimalToBinaryRecursion() throws IOException {
+        int decimal = reader.nextInt();
+        String binary = RecursionTest.decimalToBinaryRecursion(decimal);
+        printResult(binary);
+    }
+
     private static void checkPalindromeRecursion() throws IOException {
-        String s = reader.readLine();
+        String s = reader.nextLine();
 
         boolean isPalindrome = RecursionTest.checkPalindromeRecursion(s);
         writer.write(isPalindrome);
@@ -76,7 +97,7 @@ public class App {
     }
 
     private static void reverseStringRecursion() throws IOException {
-        String s = reader.readLine();
+        String s = reader.nextLine();
 
         String reverseString = RecursionTest.reverseStringRecursion(s);
         printResult(reverseString);
@@ -90,11 +111,11 @@ public class App {
     }
 
     private static void implementDeque() throws IOException {
-        int[] sizeOp = Arrays.stream(reader.readLine().trim().split("\\s+")).mapToInt(Integer::parseInt).toArray();
+        int[] sizeOp = Arrays.stream(reader.nextLine().trim().split("\\s+")).mapToInt(Integer::parseInt).toArray();
         Deque deque = new Deque(sizeOp[0]);
         int operations = sizeOp[1];
         while (operations-- > 0) {
-            int[] line = Arrays.stream(reader.readLine().trim().split("\\s+")).mapToInt(Integer::parseInt).toArray();
+            int[] line = Arrays.stream(reader.nextLine().trim().split("\\s+")).mapToInt(Integer::parseInt).toArray();
             switch (line[0]) {
                 case 1:
                     writer.write(deque.pushFront(line[1]));
@@ -136,7 +157,7 @@ public class App {
     }
 
     private static void isValidParenthesis() throws IOException {
-        String s = reader.readLine();
+        String s = reader.nextLine();
         boolean valid = StackTest.isValidParenthesis(s);
         if (valid) {
             printResult("Balanced");
@@ -148,7 +169,7 @@ public class App {
     private static void redundantBrackets() throws IOException {
         int t = reader.nextInt();
         while (t-- > 0) {
-            String testString = reader.readLine();
+            String testString = reader.nextLine();
             boolean valid = StackTest.redundantBrackets(testString);
             writer.write(valid);
             writer.writeLine("");
@@ -157,7 +178,7 @@ public class App {
     }
 
     private static void reverseLinkedList() throws IOException {
-        String[] dataStrings = reader.readLine().split(" ");
+        String[] dataStrings = reader.nextLine().split(" ");
         Node head = new Node(Integer.parseInt(dataStrings[0]));
         Node tempNode = head;
         for (int i = 1; i < dataStrings.length - 1; i++) {
@@ -173,7 +194,7 @@ public class App {
     }
 
     private static void linkedListSearch() throws IOException {
-        String[] dataStrings = reader.readLine().split(" ");
+        String[] dataStrings = reader.nextLine().split(" ");
         Node headNode = new Node(Integer.parseInt(dataStrings[0]));
         Node tempNode = headNode;
         for (int i = 1; i < dataStrings.length - 1; i++) {
@@ -191,7 +212,7 @@ public class App {
     private static void addStrings() throws IOException {
         int t = reader.nextInt();
         while (t-- > 0) {
-            String[] nums = reader.readLine().split(" ");
+            String[] nums = reader.nextLine().split(" ");
             String sumString = StringsTest.addStrings(nums[0], nums[1]);
             writer.writeLine(sumString);
             writer.flush();
@@ -201,7 +222,7 @@ public class App {
     private static void convertString() throws IOException {
         int t = reader.nextInt();
         while (t-- > 0) {
-            String testString = reader.readLine();
+            String testString = reader.nextLine();
             String convertedString = StringsTest.convertString(testString);
             printResult(convertedString);
         }
@@ -250,7 +271,7 @@ public class App {
         writer.flush();
     }
 
-    private static void setUp() {
+    private static void setUp() throws FileNotFoundException {
         reader = new FastReader();
         writer = new FastWriter();
     }
