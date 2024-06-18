@@ -1,4 +1,3 @@
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +21,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         setUp();
 
-        int question = 15;
+        int question = 19;
         switch (question) {
             case 1:
                 linearSearch();
@@ -69,9 +68,60 @@ public class App {
             case 15:
                 binarySearchRecursion();
                 break;
+            case 16:
+                sumOfNumbersRecursion();
+                break;
+            case 17:
+                sumOfFibonacciNumbersRecursion();
+                break;
+            case 18:
+                mergeSort();
+                break;
+            case 19:
+                reverseLinkedListRecursion();
+                break;
             default:
                 break;
         }
+    }
+
+    private static void reverseLinkedListRecursion() {
+        String[] dataStrings = reader.nextLine().split(" ");
+        Node head = new Node(Integer.parseInt(dataStrings[0]));
+        Node tempNode = head;
+        for (int i = 1; i < dataStrings.length; i++) {
+            tempNode.setNext(new Node(Integer.parseInt(dataStrings[i])));
+            tempNode = tempNode.getNext();
+        }
+        Node reverseHead = RecursionTest.reverseLinkedListRecursion(head);
+        while (reverseHead != null) {
+            writer.writeLine(reverseHead.data);
+            reverseHead = reverseHead.next;
+        }
+        writer.flush();
+    }
+
+    private static void mergeSort() {
+        int[] arr = Arrays.stream(reader.nextLine().split(" "))
+                .mapToInt(Integer::parseInt)
+                .toArray();
+        RecursionTest.mergeSort(arr, 0, arr.length - 1);
+        for (int i : arr) {
+            writer.writeLine(i);
+        }
+        writer.flush();
+    }
+
+    private static void sumOfFibonacciNumbersRecursion() throws IOException {
+        int n = reader.nextInt();
+        int sum = RecursionTest.FibonacciNumbersRecursion(n);
+        printResult(sum);
+    }
+
+    private static void sumOfNumbersRecursion() throws IOException {
+        int n = reader.nextInt();
+        int sum = RecursionTest.sumOfNumbersRecursion(n);
+        printResult(sum);
     }
 
     private static void binarySearchRecursion() throws IOException {
@@ -271,7 +321,7 @@ public class App {
         writer.flush();
     }
 
-    private static void setUp() throws FileNotFoundException {
+    private static void setUp() throws IOException {
         reader = new FastReader();
         writer = new FastWriter();
     }
