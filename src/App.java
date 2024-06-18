@@ -11,6 +11,8 @@ import queues.Deque;
 import recursion.RecursionTest;
 import stacks.StackTest;
 import strings.StringsTest;
+import trees.TreeNode;
+import trees.TreesTest;
 
 public class App {
 
@@ -21,7 +23,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         setUp();
 
-        int question = 20;
+        int question = 22;
         switch (question) {
             case 1:
                 linearSearch();
@@ -83,9 +85,45 @@ public class App {
             case 20:
                 mergeLinkedLists();
                 break;
+            case 21:
+                addNodeToTree();
+                break;
+            case 22:
+                printAllLeafNodes();
+                break;
             default:
                 break;
         }
+    }
+
+    private static void printAllLeafNodes() {
+        TreeNode head = null;
+        int[] arr = Arrays.stream(reader.nextLine().split(" "))
+                .mapToInt(Integer::parseInt)
+                .toArray();
+        for (int i : arr) {
+            head = TreesTest.addNodeToTree(head, i);
+        }
+        ArrayList<Integer> inOrderList = TreesTest.printAllLeafNodes(head, new ArrayList<>());
+        for (Integer item : inOrderList) {
+            writer.writeLine(item);
+        }
+        writer.flush();
+    }
+
+    private static void addNodeToTree() {
+        TreeNode head = null;
+        int[] arr = Arrays.stream(reader.nextLine().split(" "))
+                .mapToInt(Integer::parseInt)
+                .toArray();
+        for (int i : arr) {
+            head = TreesTest.addNodeToTree(head, i);
+        }
+        ArrayList<Integer> inOrderList = TreesTest.inOrderTraversal(head, new ArrayList<>());
+        for (Integer item : inOrderList) {
+            writer.writeLine(item);
+        }
+        writer.flush();
     }
 
     private static void mergeLinkedLists() {
