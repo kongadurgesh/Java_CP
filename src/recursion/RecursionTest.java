@@ -2,6 +2,8 @@ package recursion;
 
 import java.util.ArrayList;
 
+import linkedlists.Node;
+
 public class RecursionTest {
 
     public static ArrayList<ArrayList<Integer>> towerOfHanoi(int nextInt) {
@@ -68,6 +70,69 @@ public class RecursionTest {
             left = mid + 1;
             mid = (left + right) / 2;
             return binarySearchRecursion(arr, left, right, mid, element);
+        }
+    }
+
+    public static int FibonacciNumbersRecursion(int n) {
+        if (n == 0 || n == 1) {
+            return n;
+        }
+        return FibonacciNumbersRecursion(n - 1) + FibonacciNumbersRecursion(n - 2);
+    }
+
+    public static void mergeSort(int[] arr, int start, int end) {
+        if (start < end) {
+            int mid = (start + end) / 2;
+            mergeSort(arr, start, mid);
+            mergeSort(arr, mid + 1, end);
+            merge(arr, start, mid, end);
+        }
+    }
+
+    private static void merge(int[] arr, int start, int mid, int end) {
+        int[] temp = new int[end - start + 1];
+        int i = start, j = mid + 1, k = 0;
+
+        while (i <= mid && j <= end) {
+            if (arr[i] < arr[j]) {
+                temp[k++] = arr[i++];
+            } else {
+                temp[k++] = arr[j++];
+            }
+        }
+        while (i <= mid) {
+            temp[k++] = arr[i++];
+        }
+        while (j <= end) {
+            temp[k++] = arr[j++];
+        }
+        for (i = start; i <= end; i++) {
+            arr[i] = temp[i - start];
+        }
+    }
+
+    public static Node reverseLinkedListRecursion(Node head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        Node temp = reverseLinkedListRecursion(head.next);
+        head.next.next = head;
+        head.next = null;
+        return temp;
+    }
+
+    public static Node mergeLinkedLists(Node a, Node b) {
+        if (a == null)
+            return b;
+        if (b == null)
+            return a;
+
+        if (a.data < b.data) {
+            a.next = mergeLinkedLists(a.next, b);
+            return a;
+        } else {
+            b.next = mergeLinkedLists(a, b.next);
+            return b;
         }
     }
 

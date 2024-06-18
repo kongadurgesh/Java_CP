@@ -1,107 +1,124 @@
 package io;
 
-import java.io.BufferedOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 public class FastWriter {
+    private BufferedWriter writer;
 
-    private static final int DEFAULT_BUFFER_SIZE = 1 << 16; // 64KB buffer
-    private BufferedOutputStream bos;
-    private byte[] buffer;
-    private int pointer;
+    public FastWriter() throws IOException {
+        writer = new BufferedWriter(
+                new FileWriter("C:\\\\Users\\\\konga\\\\Study\\\\Core_Java\\\\Java_CP\\\\src\\\\io\\\\output.txt"));
+    }
 
-    public FastWriter() {
+    public void write(String str) {
         try {
-            bos = new BufferedOutputStream(
-                    new FileOutputStream("C:\\Users\\konga\\Study\\Core_Java\\Java_CP\\src\\io\\output.txt"),
-                    DEFAULT_BUFFER_SIZE);
-        } catch (FileNotFoundException e) {
+            writer.write(str);
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        buffer = new byte[DEFAULT_BUFFER_SIZE];
-        pointer = 0;
     }
 
-    private void ensureCapacity(int length) throws IOException {
-        if (pointer + length > buffer.length) {
-            flush();
+    public void write(int num) {
+        try {
+            writer.write(Integer.toString(num));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    public void write(String s) throws IOException {
-        byte[] data = s.getBytes(StandardCharsets.UTF_8);
-        ensureCapacity(data.length);
-        System.arraycopy(data, 0, buffer, pointer, data.length);
-        pointer += data.length;
-    }
-
-    public void write(int i) throws IOException {
-        write(Integer.toString(i));
-    }
-
-    public void write(long l) throws IOException {
-        write(Long.toString(l));
-    }
-
-    public void write(double d) throws IOException {
-        write(Double.toString(d));
-    }
-
-    public void writeList(@SuppressWarnings("rawtypes") List list) throws IOException {
-        for (Object object : list) {
-            writeLine(object.toString());
+    public void write(long num) {
+        try {
+            writer.write(Long.toString(num));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    public void write(char c) throws IOException {
-        ensureCapacity(1);
-        buffer[pointer++] = (byte) c;
-    }
-
-    public void writeLine(String s) throws IOException {
-        write(s);
-        write('\n');
-    }
-
-    public void writeLine(int i) throws IOException {
-        write(i);
-        write('\n');
-    }
-
-    public void writeLine(long l) throws IOException {
-        write(l);
-        write('\n');
-    }
-
-    public void writeLine(double d) throws IOException {
-        write(d);
-        write('\n');
-    }
-
-    public void writeLine(char c) throws IOException {
-        write(c);
-        write('\n');
-    }
-
-    public void flush() throws IOException {
-        if (pointer > 0) {
-            bos.write(buffer, 0, pointer);
-            pointer = 0;
+    public void write(double num) {
+        try {
+            writer.write(Double.toString(num));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        bos.flush();
     }
 
-    public void close() throws IOException {
-        flush();
-        bos.close();
+    public void write(boolean bool) {
+        try {
+            writer.write(Boolean.toString(bool));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void write(boolean valid) throws IOException {
-        write(Boolean.toString(valid));
+    public void writeLine(String str) {
+        try {
+            writer.write(str);
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeLine(int num) {
+        try {
+            writer.write(Integer.toString(num));
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeLine(long num) {
+        try {
+            writer.write(Long.toString(num));
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeLine(double num) {
+        try {
+            writer.write(Double.toString(num));
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeLine(boolean bool) {
+        try {
+            writer.write(Boolean.toString(bool));
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeln() {
+        try {
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void flush() {
+        try {
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void close() {
+        try {
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
