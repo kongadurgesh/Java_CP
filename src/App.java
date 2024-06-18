@@ -1,10 +1,14 @@
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import arrays.ArraysTest;
 import io.FastReader;
 import io.FastWriter;
 import linkedlists.LinkedListTest;
 import linkedlists.Node;
+import queues.Deque;
+import recursion.RecursionTest;
 import stacks.StackTest;
 import strings.StringsTest;
 
@@ -17,7 +21,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         setUp();
 
-        int question = 8;
+        int question = 13;
         switch (question) {
             case 1:
                 linearSearch();
@@ -43,8 +47,101 @@ public class App {
             case 8:
                 redundantBrackets();
                 break;
+            case 9:
+                isValidParenthesis();
+                break;
+            case 10:
+                implementDeque();
+                break;
+            case 11:
+                towerOfHanoi();
+                break;
+            case 12:
+                reverseStringRecursion();
+                break;
+            case 13:
+                checkPalindromeRecursion();
+                break;
             default:
                 break;
+        }
+    }
+
+    private static void checkPalindromeRecursion() throws IOException {
+        String s = reader.readLine();
+
+        boolean isPalindrome = RecursionTest.checkPalindromeRecursion(s);
+        writer.write(isPalindrome);
+        writer.flush();
+    }
+
+    private static void reverseStringRecursion() throws IOException {
+        String s = reader.readLine();
+
+        String reverseString = RecursionTest.reverseStringRecursion(s);
+        printResult(reverseString);
+    }
+
+    private static void towerOfHanoi() throws IOException {
+        ArrayList<ArrayList<Integer>> resultList = RecursionTest.towerOfHanoi(reader.nextInt());
+        for (ArrayList<Integer> move : resultList) {
+            System.out.println("Move disk from rod " + move.get(0) + " to rod " + move.get(1));
+        }
+    }
+
+    private static void implementDeque() throws IOException {
+        int[] sizeOp = Arrays.stream(reader.readLine().trim().split("\\s+")).mapToInt(Integer::parseInt).toArray();
+        Deque deque = new Deque(sizeOp[0]);
+        int operations = sizeOp[1];
+        while (operations-- > 0) {
+            int[] line = Arrays.stream(reader.readLine().trim().split("\\s+")).mapToInt(Integer::parseInt).toArray();
+            switch (line[0]) {
+                case 1:
+                    writer.write(deque.pushFront(line[1]));
+                    writer.writeLine("");
+                    break;
+                case 2:
+                    writer.write(deque.pushRear(line[1]));
+                    writer.writeLine("");
+                    break;
+                case 3:
+                    writer.write(deque.popFront());
+                    writer.writeLine("");
+                    break;
+                case 4:
+                    writer.write(deque.popRear());
+                    writer.writeLine("");
+                    break;
+                case 5:
+                    writer.write(deque.getFront());
+                    writer.writeLine("");
+                    break;
+                case 6:
+                    writer.write(deque.getRear());
+                    writer.writeLine("");
+                    break;
+                case 7:
+                    writer.write(deque.isEmpty());
+                    writer.writeLine("");
+                    break;
+                case 8:
+                    writer.write(deque.isFull());
+                    writer.writeLine("");
+                    break;
+                default:
+                    break;
+            }
+        }
+        writer.flush();
+    }
+
+    private static void isValidParenthesis() throws IOException {
+        String s = reader.readLine();
+        boolean valid = StackTest.isValidParenthesis(s);
+        if (valid) {
+            printResult("Balanced");
+        } else {
+            printResult("Not Balanced");
         }
     }
 
