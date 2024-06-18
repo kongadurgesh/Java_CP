@@ -6,8 +6,27 @@ import linkedlists.Node;
 
 public class RecursionTest {
 
-    public static ArrayList<ArrayList<Integer>> towerOfHanoi(int nextInt) {
-        return null;
+    public static ArrayList<ArrayList<Integer>> towerOfHanoi(int n) {
+        ArrayList<ArrayList<Integer>> resultList = new ArrayList<>();
+        solveHanoi(n, 1, 3, 2, resultList);
+        return resultList;
+    }
+
+    private static void solveHanoi(int n, int source, int destination, int via,
+            ArrayList<ArrayList<Integer>> resultList) {
+        if (n == 1) {
+            ArrayList<Integer> move = new ArrayList<>();
+            move.add(source);
+            move.add(destination);
+            resultList.add(move);
+            return;
+        }
+        solveHanoi(n - 1, source, via, destination, resultList);
+        ArrayList<Integer> move = new ArrayList<>();
+        move.add(source);
+        move.add(destination);
+        resultList.add(move);
+        solveHanoi(n - 1, via, destination, source, resultList);
     }
 
     public static String reverseStringRecursion(String s) {

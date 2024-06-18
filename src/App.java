@@ -23,7 +23,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         setUp();
 
-        int question = 22;
+        int question = 11;
         switch (question) {
             case 1:
                 linearSearch();
