@@ -21,7 +21,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         setUp();
 
-        int question = 19;
+        int question = 20;
         switch (question) {
             case 1:
                 linearSearch();
@@ -80,9 +80,35 @@ public class App {
             case 19:
                 reverseLinkedListRecursion();
                 break;
+            case 20:
+                mergeLinkedLists();
+                break;
             default:
                 break;
         }
+    }
+
+    private static void mergeLinkedLists() {
+        String[] dataStrings = reader.nextLine().split(" ");
+        Node A = new Node(Integer.parseInt(dataStrings[0]));
+        Node tempNode = A;
+        for (int i = 1; i < dataStrings.length; i++) {
+            tempNode.setNext(new Node(Integer.parseInt(dataStrings[i])));
+            tempNode = tempNode.getNext();
+        }
+        dataStrings = reader.nextLine().split(" ");
+        Node B = new Node(Integer.parseInt(dataStrings[0]));
+        tempNode = B;
+        for (int i = 1; i < dataStrings.length; i++) {
+            tempNode.setNext(new Node(Integer.parseInt(dataStrings[i])));
+            tempNode = tempNode.getNext();
+        }
+        Node mergedNode = RecursionTest.mergeLinkedLists(A, B);
+        while (mergedNode != null) {
+            writer.writeLine(mergedNode.data);
+            mergedNode = mergedNode.next;
+        }
+        writer.flush();
     }
 
     private static void reverseLinkedListRecursion() {

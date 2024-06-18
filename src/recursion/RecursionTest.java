@@ -121,4 +121,19 @@ public class RecursionTest {
         return temp;
     }
 
+    public static Node mergeLinkedLists(Node a, Node b) {
+        if (a == null)
+            return b;
+        if (b == null)
+            return a;
+
+        if (a.data < b.data) {
+            a.next = mergeLinkedLists(a.next, b);
+            return a;
+        } else {
+            b.next = mergeLinkedLists(a, b.next);
+            return b;
+        }
+    }
+
 }
