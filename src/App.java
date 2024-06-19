@@ -23,7 +23,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         setUp();
 
-        int question = 22;
+        int question = 24;
         switch (question) {
             case 1:
                 linearSearch();
@@ -91,9 +91,39 @@ public class App {
             case 22:
                 printAllLeafNodes();
                 break;
+            case 23:
+                familyStructureRecursion();
+                break;
+            case 24:
+                nthtermOfGP();
+                break;
             default:
                 break;
         }
+    }
+
+    private static void nthtermOfGP() {
+        int t = reader.nextInt();
+        while (t-- > 0) {
+            int[] arr = Arrays.stream(reader.nextLine().split(" "))
+                    .mapToInt(Integer::parseInt)
+                    .toArray();
+            int result = RecursionTest.nthTermOfGP(arr[0], arr[1], arr[2]);
+            writer.writeLine(result);
+        }
+        writer.flush();
+    }
+
+    private static void familyStructureRecursion() {
+        int t = reader.nextInt();
+        while (t-- > 0) {
+            int[] arr = Arrays.stream(reader.nextLine().split(" "))
+                    .mapToInt(Integer::parseInt)
+                    .toArray();
+            String gender = RecursionTest.familyStructureRecursion(arr[0], arr[1]);
+            writer.writeLine(gender);
+        }
+        writer.flush();
     }
 
     private static void printAllLeafNodes() {

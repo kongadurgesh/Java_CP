@@ -6,8 +6,27 @@ import linkedlists.Node;
 
 public class RecursionTest {
 
-    public static ArrayList<ArrayList<Integer>> towerOfHanoi(int nextInt) {
-        return null;
+    public static ArrayList<ArrayList<Integer>> towerOfHanoi(int n) {
+        ArrayList<ArrayList<Integer>> resultList = new ArrayList<>();
+        solveHanoi(n, 1, 3, 2, resultList);
+        return resultList;
+    }
+
+    private static void solveHanoi(int n, int source, int destination, int via,
+            ArrayList<ArrayList<Integer>> resultList) {
+        if (n == 1) {
+            ArrayList<Integer> move = new ArrayList<>();
+            move.add(source);
+            move.add(destination);
+            resultList.add(move);
+            return;
+        }
+        solveHanoi(n - 1, source, via, destination, resultList);
+        ArrayList<Integer> move = new ArrayList<>();
+        move.add(source);
+        move.add(destination);
+        resultList.add(move);
+        solveHanoi(n - 1, via, destination, source, resultList);
     }
 
     public static String reverseStringRecursion(String s) {
@@ -134,6 +153,88 @@ public class RecursionTest {
             b.next = mergeLinkedLists(a, b.next);
             return b;
         }
+    }
+
+    public static String familyStructureRecursion(int n, int k) {
+        FamilyNode familyNode = createFamily(n);
+        ArrayList<String> nThGeneration = new ArrayList<>();
+        nThGeneration = getAllChildren(familyNode, nThGeneration);
+        return nThGeneration.get(k - 1);
+    }
+
+    private static ArrayList<String> getAllChildren(FamilyNode familyNode, ArrayList<String> arrayList) {
+        FamilyNode temp = familyNode;
+        if (temp == null) {
+            return arrayList;
+        }
+        if (temp.left == null && temp.right == null) {
+            arrayList.add(temp.gender);
+        }
+        if (temp.left != null) {
+            getAllChildren(temp.left, arrayList);
+        }
+        if (temp.right != null) {
+            getAllChildren(temp.right, arrayList);
+        }
+        return arrayList;
+    }
+
+    private static FamilyNode createFamily(int levels) {
+        return familyCreator(1, levels, "Male");
+
+    }
+
+    private static FamilyNode familyCreator(int currentLevel, int maxLevel, String parentGender) {
+        if (currentLevel > maxLevel) {
+            return null;
+        }
+        String currentGender = parentGender.equals("Male") ? "Male" : "Female";
+        FamilyNode familyNode = new FamilyNode(currentLevel, currentGender);
+
+        String leftGender = currentGender.equals("Male") ? "Male" : "Female";
+        String rightGender = currentGender.equals("Male") ? "Female" : "Male";
+
+        familyNode.left = familyCreator(currentLevel + 1, maxLevel, leftGender);
+        familyNode.right = familyCreator(currentLevel + 1, maxLevel, rightGender);
+
+        return familyNode;
+    }
+
+    public static int nthTermOfGP(int N, int A, int R) {
+        final int MOD = 1_000_000_007;
+        if (N == 0) {
+            return 0;
+        }
+        return nthTermOfGPRecursive(N, A, R, 1, MOD) % MOD;
+    }
+
+    private static int nthTermOfGPRecursive(int N, int A, int R, int currentPowerOfR, int MOD) {
+        if (N == 1) {
+            return A % MOD;
+        }
+        int nextPowerOfR = multiplyMod(currentPowerOfR, R);
+        return multiplyMod(A, nthTermOfGPRecursive(N - 1, 1, R, nextPowerOfR, MOD));
+    }
+
+    private static int multiplyMod(int a, int b) {
+        return (int) (((long) a * b) % 1_000_000_007);
+    }
+
+    /**
+     * FamilyNode
+     */
+
+}
+
+class FamilyNode {
+    public int value;
+    public String gender;
+    public FamilyNode left;
+    public FamilyNode right;
+
+    public FamilyNode(int value, String gender) {
+        this.value = value;
+        this.gender = gender;
     }
 
 }
