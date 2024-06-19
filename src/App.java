@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import arrays.ArraysTest;
 import io.FastReader;
@@ -23,7 +24,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         setUp();
 
-        int question = 24;
+        int question = 25;
         switch (question) {
             case 1:
                 linearSearch();
@@ -97,8 +98,26 @@ public class App {
             case 24:
                 nthtermOfGP();
                 break;
+            case 25:
+                printSeries();
+                break;
             default:
                 break;
+        }
+    }
+
+    private static void printSeries() {
+        int t = reader.nextInt();
+        while (t-- > 0) {
+            int[] arr = Arrays.stream(reader.nextLine().split(" "))
+                    .mapToInt(Integer::parseInt)
+                    .toArray();
+            List<Integer> resultList = RecursionTest.printSeries(arr[0], arr[1]);
+            for (Integer integer : resultList) {
+                writer.write(integer + ", ");
+            }
+            writer.writeLine("");
+            writer.flush();
         }
     }
 

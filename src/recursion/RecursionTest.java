@@ -1,6 +1,7 @@
 package recursion;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import linkedlists.Node;
 
@@ -220,9 +221,36 @@ public class RecursionTest {
         return (int) (((long) a * b) % 1_000_000_007);
     }
 
-    /**
-     * FamilyNode
-     */
+    public static List<Integer> printSeries(int n, int k) {
+        List<Integer> resultList = new ArrayList<>();
+        int temp = n;
+        if (n > 0) {
+            addDecreasingElementsToList(n, k, resultList);
+            n = resultList.get(resultList.size() - 1);
+            resultList.remove(resultList.size() - 1);
+        }
+        if (n <= 0) {
+            addIncreasingElementsToList(temp, n, k, resultList);
+        }
+        return resultList;
+    }
+
+    private static void addDecreasingElementsToList(int n, int k, List<Integer> resultList) {
+        resultList.add(n);
+        if (n > 0) {
+            n = n - k;
+            addDecreasingElementsToList(n, k, resultList);
+        }
+        return;
+    }
+
+    private static void addIncreasingElementsToList(int temp, int n, int k, List<Integer> resultList) {
+        if (n > temp) {
+            return;
+        }
+        resultList.add(n);
+        addIncreasingElementsToList(temp, n + k, k, resultList);
+    }
 
 }
 
