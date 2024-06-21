@@ -24,7 +24,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         setUp();
 
-        int question = 25;
+        int question = 28;
         switch (question) {
             case 1:
                 linearSearch();
@@ -101,9 +101,58 @@ public class App {
             case 25:
                 printSeries();
                 break;
+            case 26:
+                subsetsOfK();
+                break;
+            case 27:
+                sudokuSolver();
+                break;
+            case 28:
+                reachDestination();
+                break;
             default:
                 break;
         }
+    }
+
+    private static void reachDestination() {
+        int t = reader.nextInt();
+        while (t-- > 0) {
+            int arr[] = Arrays.stream(reader.nextLine().split(" "))
+                    .mapToInt(Integer::parseInt)
+                    .toArray();
+            boolean result = RecursionTest.reachDestination(arr[0], arr[1], arr[2], arr[3]);
+            writer.writeLine(result);
+        }
+        writer.flush();
+    }
+
+    private static void sudokuSolver() throws IOException {
+        int t = reader.nextInt();
+        while (t-- > 0) {
+            int matrix[][] = new int[9][9];
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    matrix[i][j] = reader.nextInt();
+                }
+            }
+            boolean isValid = RecursionTest.isItSudoku(matrix);
+            printResult(String.valueOf(isValid));
+        }
+    }
+
+    private static void subsetsOfK() {
+        int n = reader.nextInt();
+        ArrayList<Integer> arr = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            arr.add(reader.nextInt());
+        }
+        int k = reader.nextInt();
+        ArrayList<ArrayList<Integer>> result = RecursionTest.subsetsOfK(arr, n, k);
+        for (ArrayList<Integer> arrayList : result) {
+            writer.writeLine(arrayList.toString());
+        }
+        writer.flush();
     }
 
     private static void printSeries() {
