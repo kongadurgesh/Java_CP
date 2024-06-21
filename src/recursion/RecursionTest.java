@@ -1,7 +1,7 @@
 package recursion;
 
 import java.util.ArrayList;
-
+import java.util.List;
 import linkedlists.Node;
 
 public class RecursionTest {
@@ -203,27 +203,130 @@ public class RecursionTest {
     public static int nthTermOfGP(int N, int A, int R) {
         final int MOD = 1_000_000_007;
         if (N == 0) {
-            return 0;
-        }
-        return nthTermOfGPRecursive(N, A, R, 1, MOD) % MOD;
-    }
-
-    private static int nthTermOfGPRecursive(int N, int A, int R, int currentPowerOfR, int MOD) {
-        if (N == 1) {
             return A % MOD;
         }
-        int nextPowerOfR = multiplyMod(currentPowerOfR, R);
-        return multiplyMod(A, nthTermOfGPRecursive(N - 1, 1, R, nextPowerOfR, MOD));
+        long rPowerNMinus1 = fastExponentiation(R, N - 1, MOD);
+        return (int) (A * rPowerNMinus1 % MOD);
     }
 
-    private static int multiplyMod(int a, int b) {
-        return (int) (((long) a * b) % 1_000_000_007);
+    private static long fastExponentiation(int base, int exp, int mod) {
+        long result = 1;
+        long baseMod = base % mod;
+
+        while (exp > 0) {
+            if ((exp & 1) == 1) { // If exp is odd, multiply base with result
+                result = (result * baseMod) % mod;
+            }
+            baseMod = (baseMod * baseMod) % mod; // Square the base
+            exp >>= 1; // Divide exp by 2
+        }
+
+        return result;
     }
 
-    /**
-     * FamilyNode
-     */
+    public static List<Integer> printSeries(int n, int k) {
+        List<Integer> resultList = new ArrayList<>();
+        int temp = n;
+        if (n > 0) {
+            addDecreasingElementsToList(n, k, resultList);
+            n = resultList.get(resultList.size() - 1);
+            resultList.remove(resultList.size() - 1);
+        }
+        if (n <= 0) {
+            addIncreasingElementsToList(temp, n, k, resultList);
+        }
+        return resultList;
+    }
 
+    private static void addDecreasingElementsToList(int n, int k, List<Integer> resultList) {
+        resultList.add(n);
+        if (n > 0) {
+            n = n - k;
+            addDecreasingElementsToList(n, k, resultList);
+        }
+        return;
+    }
+
+    private static void addIncreasingElementsToList(int temp, int n, int k, List<Integer> resultList) {
+        if (n > temp) {
+            return;
+        }
+        resultList.add(n);
+        addIncreasingElementsToList(temp, n + k, k, resultList);
+    }
+
+    public static ArrayList<ArrayList<Integer>> subsetsOfK(ArrayList<Integer> arr, int n, int k) {
+        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
+        findSubsets(arr, n, k, 0, new ArrayList<>(), result);
+        return result;
+    }
+
+    private static void findSubsets(ArrayList<Integer> arr, int n, int k, int index, ArrayList<Integer> current,
+            ArrayList<ArrayList<Integer>> result) {
+        // If the sum of the current subset is equal to k, add it to the result
+        if (k == 0) {
+            result.add(new ArrayList<>(current));
+            // Continue searching for other possible subsets
+        }
+
+        // If the index is out of bounds, return
+        if (index >= n) {
+            return;
+        }
+
+        // Include the current element in the subset
+        current.add(arr.get(index));
+        findSubsets(arr, n, k - arr.get(index), index + 1, current, result);
+
+        // Exclude the current element from the subset and backtrack
+        current.remove(current.size() - 1);
+        findSubsets(arr, n, k, index + 1, current, result);
+    }
+
+    public static boolean isItSudoku(int[][] matrix) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (matrix[i][j] == 0) {
+                    for (int element = 1; element < 10; element++) {
+                        if (isValid(matrix, i, j, element)) {
+                            matrix[i][j] = element;
+
+                            if (isItSudoku(matrix))
+                                return true;
+                            else
+                                matrix[i][j] = 0;
+
+                        }
+                    }
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private static boolean isValid(int[][] matrix, int row, int column, int element) {
+        for (int i = 0; i < 9; i++) {
+            if (matrix[i][column] == element) {
+                return false;
+            }
+            if (matrix[row][i] == element) {
+                return false;
+            }
+            if (matrix[3 * (row / 3) + i / 3][3 * (column / 3) + i % 3] == element) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean reachDestination(int sx, int sy, int dx, int dy) {
+        if (sx == dx && sy == dy)
+            return true;
+        if (sx > dx || sy > dy)
+            return false;
+        return reachDestination(sx + sy, sy, dx, dy) || reachDestination(sx, sy + sx, dx, dy);
+    }
 }
 
 class FamilyNode {
